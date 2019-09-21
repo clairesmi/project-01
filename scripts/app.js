@@ -36,6 +36,7 @@ console.log('JS Loaded')
 // 5 second countdown on loading page
 
 //  data-id for alien group maybe?
+// reset game - use rps game for reset ref
 
 
 
@@ -48,7 +49,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const cells = []
   let playerIdx = 90
   let alienIdx = 11
+  let bulletIdx = playerIdx - width
   let direction = 1
+  const reset = document.querySelector('.reset')
+
+
+
+
+
+
+  
 
   // function to add player to event target class list - to be called to move player around the grid
   function handleClick(e) {
@@ -125,23 +135,38 @@ document.addEventListener('DOMContentLoaded', () => {
   //  *********** SATURDAY **************
 
 
-  // const bulletMove = setInterval(() => {
+  // bullet from shooter to alien
+
+ 
 
   document.addEventListener('keyup', () => {
+    
     let bulletIdx = playerIdx - width
     if (event.keyCode === 32) {
       cells[bulletIdx].classList.add('bullet')
+    
+      const bulletMove = setInterval(() => {
+        
+        cells[bulletIdx].classList.remove('bullet')
+      
+        bulletIdx -= width
+      
+        cells[bulletIdx].classList.add('bullet')
+      
+      }, 500) 
     }
-    const bulletMove = setInterval(() => {
-      cells[bulletIdx].classList.remove('bullet')
-      
-      bulletIdx -= width
-      
-      cells[bulletIdx].classList.add('bullet')
-      
-    }, 500) 
-
   })
+     
+   
+      
+  // not sure about below - wait until aliens are grouped 
+      
+  // if (bulletIdx === alienIdx) {
+  //   alert('you win!')
+  //   cells[alienIdx].classList.remove('alien')
+  // }
+
+ 
 
   const alienBomb = setInterval(() => {
     let bombIdx = alienIdx + width
@@ -153,13 +178,40 @@ document.addEventListener('DOMContentLoaded', () => {
       bombIdx += width
       cells[bombIdx].classList.add('bomb')
 
+      if (bombIdx === playerIdx || alienIdx === playerIdx) {
+        alert('you lose!')
+        cells[playerIdx].classList.remove('player')
+        cells[playerIdx].classList.add('player-killed')
+
+      } 
+
+      // reset page - revisit 
+
+      reset.addEventListener('reset', () => {
+        cells[playerIdx].classList.remove('player-killed')
+        cells[playerIdx].classList.add('player')
+        cells[alienIdx].classList.remove('alien')
+        cells[bombIdx].classList.remove('bomb')
+        alienIdx = 11
+        cells[alienIdx].classList.add('alien')
+        bombIdx = alienIdx + width
+        cells[bombIdx].classList.add('bomb')
+        
+
+      })
+       
+      
+
     }, 500)
+
   }, 2000)
 
 
-// ********* Win Conditions ************
 
-  if (bombIdx === playerIdx)
+
+  // ********* Win Conditions ************
+
+  
 
 
 

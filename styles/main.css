@@ -48,6 +48,10 @@ body {
   background-color: black;
 }
 
+.grid div.player-killed {
+  background-color: pink
+}
+
 
 /* .grid div.player[data-direction="forward"] {
   transform: scaleX(1)
