@@ -23,31 +23,18 @@ body {
 }
 
 .grid div {
-  border: 1px solid;
+  /* border: 1px solid; */
   flex-grow: 1;
   height: 10%;
   width: 10%;
 }
 
 .grid div.player {
-  background-color: red;
+  background-image: url(../assets/sprite-sheet.png);
   background-size: 300px;
   background-position-x: 0;
   background-position-y: 0;
 }
-
-.grid div.bullet {
-  background-color: green;
-}
-
-.grid div.alien {
-  background-color: yellow;
-}
-
-.grid div.bomb {
-  background-color: black;
-}
-
 
 /* .grid div.player[data-direction="forward"] {
   transform: scaleX(1)
