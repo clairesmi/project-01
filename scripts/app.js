@@ -35,8 +35,12 @@ console.log('JS Loaded')
 // added extra - instructions to appear on screen on load - one letter at a time 
 // 5 second countdown on loading page
 
-//  data-id for alien group maybe?
+
+
+// RESET - MONDAY ************
 // reset game - use rps game for reset ref
+// create total score and points countdown
+
 
 
 
@@ -93,8 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const alienMove = setInterval(() => {
 
     const x = Math.floor(alienIdx % width)
-
-    // cells[alienIdx].classList.remove('aliens')
 
     teamAliens.forEach(function(element){
       console.log(element)
@@ -273,13 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cells[playerIdx].classList.add('player')
   })
 
-  
-  //  *********** SATURDAY **************
-
-
   // bullet from shooter to alien
-
- 
 
   document.addEventListener('keyup', () => {
     
@@ -299,19 +295,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
      
-   
-      
-  // not sure about below - wait until aliens are grouped 
-      
-  // if (bulletIdx === alienIdx) {
-  //   alert('you win!')
-  //   cells[alienIdx].classList.remove('alien')
-  // }
-
- 
-
   const alienBomb = setInterval(() => {
-    let bombIdx = alienIdx + width
+    let bombIdx = alienIdx + Math.floor(Math.random() * width)
+    console.log(typeof bombIdx)
+    
+    console.log(bombIdx)
+    // let bombIdx = alienIdx + width
     cells[bombIdx].classList.add('bomb')
 
     const bombDrop = setInterval(() => {
@@ -320,13 +309,11 @@ document.addEventListener('DOMContentLoaded', () => {
       bombIdx += width
       cells[bombIdx].classList.add('bomb')
 
-      if (bombIdx === playerIdx || alienIdx === playerIdx) {
+      if (bombIdx === playerIdx) {
         alert('you lose!')
         cells[playerIdx].classList.remove('player')
         cells[playerIdx].classList.add('player-killed')
-
-      } 
-
+      }
       // reset page - revisit 
 
       reset.addEventListener('reset', () => {
@@ -338,12 +325,9 @@ document.addEventListener('DOMContentLoaded', () => {
         cells[alienIdx].classList.add('alien')
         bombIdx = alienIdx + width
         cells[bombIdx].classList.add('bomb')
-        
-
-      })
-       
       
-
+      })
+          
     }, 500)
 
   }, 2000)
