@@ -46,19 +46,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // use let for player index as it will be changed later
   const width = 10
   const grid = document.querySelector('.grid')
+  const aliens = document.querySelector('.aliens')
+  const teamAliens = []
+  const teamAliens2 = []
+  const teamAliens3 = []
   const cells = []
   let playerIdx = 90
-  let alienIdx = 11
+  let alienIdx = 21
+  let alienIdx2 = alienIdx - width
+  let alienIdx3 = alienIdx2 - width
   let bulletIdx = playerIdx - width
   let direction = 1
   const reset = document.querySelector('.reset')
 
-
-
-
-
-
-  
 
   // function to add player to event target class list - to be called to move player around the grid
   function handleClick(e) {
@@ -75,30 +75,172 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Alien movement
+  for (let i = 0; i < 8; i++) {
+    teamAliens.push(aliens)
+    console.log(teamAliens.length)
+  }
 
-  cells[alienIdx].classList.add('alien')
+  // add the class of aliens to specific indexes in the grid   
+
+  // cells[alienIdx].classList.add('alien')
+
+  teamAliens.forEach(function(element){
+    console.log(element)
+    cells[alienIdx ++].classList.add('aliens')
+
+  })
 
   const alienMove = setInterval(() => {
 
     const x = Math.floor(alienIdx % width)
 
-    cells[alienIdx].classList.remove('alien')
+    // cells[alienIdx].classList.remove('aliens')
 
-    if (direction === 1 && x === width - 1) {
+    teamAliens.forEach(function(element){
+      console.log(element)
+      cells[alienIdx -= 1 ].classList.remove('aliens')
+    })
+
+    console.log(alienIdx)
+    
+    // // ******** Sunday - adjust directions & collision detection ************
+
+    if (direction === 1 && alienIdx % width === 2) {
       direction = width 
-    } else if (direction === width && x === width - 1) {
+
+    } else if (direction === width && alienIdx % width === 2 ) {
       direction = -1
-    } else if (direction === -1 && x === 0) {
+
+    } else if (direction === -1 && alienIdx % width === 0) {
       direction = width
-    } else if (direction === width && x === 0) 
+
+    } else if (direction === width && alienIdx % width === 0) {
       direction = 1
- 
+    }
+
+    // if (direction === 1 && x === width - 1) {
+    //   direction = width 
+    // } else if (direction === width && x === width - 1) {
+    //   direction = -1
+    // } else if (direction === -1 && x === 0) {
+    //   direction = width
+    // } else if (direction === width && x === 0) 
+    //   direction = 1
+      
     alienIdx += direction
 
-    cells[alienIdx].classList.add('alien')
+    // alienIdx += 1
 
-  }, 500)
+  
 
+    teamAliens.forEach(function (element) {
+      console.log(element)
+      cells[alienIdx ++].classList.add('aliens')
+  
+    })
+
+  }, 1000)
+
+  // ************* second row of aliens *****************
+
+  for (let i = 0; i < 8; i++) {
+    teamAliens2.push(aliens)
+    console.log(teamAliens2.length)
+  }
+
+  // add the class of aliens to specific indexes in the grid   
+
+  // cells[alienIdx].classList.add('alien')
+
+  // cells[alienIdx += 1].classList.add('aliens')
+
+  teamAliens2.forEach(function(element){
+    console.log(element)
+    cells[alienIdx2 ++].classList.add('aliens')
+
+    
+  })
+
+
+  const alienMove2 = setInterval(() => {
+
+    const x = Math.floor(alienIdx2 % width)
+
+    // cells[alienIdx].classList.remove('aliens')
+
+    teamAliens2.forEach(function(element){
+      console.log(element)
+      cells[alienIdx2 -= 1 ].classList.remove('aliens')
+    })
+
+    //   console.log(alienIdx2)
+    
+    // // ******** Sunday - adjust directions & collision detection ************
+
+    if (direction === 1 && alienIdx2 % width === 2) {
+      direction = width 
+    }
+  
+    alienIdx2 += direction
+
+    teamAliens2.forEach(function (element) {
+      console.log(element)
+      cells[alienIdx2 ++].classList.add('aliens')
+  
+    })
+
+  }, 1000)
+
+  // *********** third row of aliens ***********
+
+  for (let i = 0; i < 8; i++) {
+    teamAliens3.push(aliens)
+    console.log(teamAliens2.length)
+  }
+
+  // add the class of aliens to specific indexes in the grid   
+
+  // cells[alienIdx].classList.add('alien')
+
+  // cells[alienIdx += 1].classList.add('aliens')
+
+  teamAliens3.forEach(function(element){
+    console.log(element)
+    cells[alienIdx3 ++].classList.add('aliens')
+
+    
+  })
+
+
+  const alienMove3 = setInterval(() => {
+
+    const x = Math.floor(alienIdx3 % width)
+
+    // cells[alienIdx].classList.remove('aliens')
+
+    teamAliens3.forEach(function(element){
+      console.log(element)
+      cells[alienIdx3 -= 1 ].classList.remove('aliens')
+    })
+
+    //   console.log(alienIdx2)
+    
+    // // ******** Sunday - adjust directions & collision detection ************
+
+    if (direction === 1 && alienIdx3 % width === 2) {
+      direction = width 
+    }
+      
+    alienIdx3 += direction
+
+
+    teamAliens3.forEach(function (element) {
+      console.log(element)
+      cells[alienIdx3 ++].classList.add('aliens')
+  
+    })
+
+  }, 1000)
 
 
 

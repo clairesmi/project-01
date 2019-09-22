@@ -36,12 +36,17 @@ body {
   background-position-y: 0;
 }
 
+.grid div.aliens {
+  background-color: yellow;
+}
+
+
 .grid div.bullet {
   background-color: green;
 }
 
 .grid div.alien {
-  background-color: yellow;
+  background-color: purple
 }
 
 .grid div.bomb {
