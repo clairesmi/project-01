@@ -50,8 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // use let for player index as it will be changed later
   const width = 10
   const grid = document.querySelector('.grid')
-  const aliens = document.querySelector('.aliens')
-  const teamAliens = []
+  // const aliens = document.querySelector('.aliens')
+  let teamAliens = []
   const teamAliens2 = []
   const teamAliens3 = []
   const cells = []
@@ -61,6 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let alienIdx3 = alienIdx2 - width
   let bulletIdx = playerIdx - width
   let direction = 1
+  let total = 0
+  let lives = 3
   const reset = document.querySelector('.reset')
 
 
@@ -80,45 +82,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Alien movement
   for (let i = 0; i < 8; i++) {
-    teamAliens.push(aliens)
-    console.log(teamAliens.length)
+    cells[alienIdx ++].classList.add('aliens')
+    // const aliens = document.querySelector('.aliens')
+    teamAliens.push(alienIdx - 1)
+    // console.log(teamAliens.length)
   }
+
+  console.log(teamAliens)
 
   // add the class of aliens to specific indexes in the grid   
 
   // cells[alienIdx].classList.add('alien')
 
-  teamAliens.forEach(function(element){
-    console.log(element)
-    cells[alienIdx ++].classList.add('aliens')
-
-  })
+  // teamAliens.forEach(function(element){
+  //   // console.log(element)
+  //   cells[alienIdx ++].classList.add('aliens')
+  //   teamAliens.push(aliens)
+  // })
 
   const alienMove = setInterval(() => {
 
     const x = Math.floor(alienIdx % width)
+    cells.forEach(cell => cell.classList.remove('aliens', 'bullet', 'new'))
+    // teamAliens.forEach(function(element){
+    //   // console.log(element)
+    //   cells[alienIdx -= 1 ].classList.remove('aliens')
+    // })
 
-    teamAliens.forEach(function(element){
-      console.log(element)
-      cells[alienIdx -= 1 ].classList.remove('aliens')
-    })
-
-    console.log(alienIdx)
+    // console.log(alienIdx)
     
     // // ******** Sunday - adjust directions & collision detection ************
-
-    if (direction === 1 && alienIdx % width === 2) {
+    if (direction === 1 && teamAliens[0] % width === 2) {
       direction = width 
 
-    } else if (direction === width && alienIdx % width === 2 ) {
+    } else if (direction === width && teamAliens[0] % width === 2 ) {
       direction = -1
 
-    } else if (direction === -1 && alienIdx % width === 0) {
+    } else if (direction === -1 && teamAliens[0] % width === 0) {
       direction = width
 
-    } else if (direction === width && alienIdx % width === 0) {
+    } else if (direction === width && teamAliens[0] % width === 0) {
       direction = 1
     }
+
+    // using map on our alien index array, to always update based on the direction
+    teamAliens = teamAliens.map(alien => alien ? alien + direction : null)
+    // if (direction === 1) {
+    //   teamAliens = teamAliens.map(alien => alien ? alien + 1 : null)
+    // }
+    // if (direction === width) {
+    //   teamAliens = teamAliens.map(alien => alien ? alien + width : null)
+    // } 
+    // if (direction === -1) {
+    //   teamAliens = teamAliens.map(alien =>  alien ? alien - 1 : null) 
+    // }
+
+    console.log(teamAliens)
 
     // if (direction === 1 && x === width - 1) {
     //   direction = width 
@@ -129,120 +148,113 @@ document.addEventListener('DOMContentLoaded', () => {
     // } else if (direction === width && x === 0) 
     //   direction = 1
       
-    alienIdx += direction
-
+    // alienIdx += direction
     // alienIdx += 1
-
-  
-
-    teamAliens.forEach(function (element) {
-      console.log(element)
-      cells[alienIdx ++].classList.add('aliens')
-  
+    teamAliens.forEach((element) => {
+      if (element) {
+        cells[element].classList.add('aliens')
+      }
     })
 
   }, 1000)
 
-  // ************* second row of aliens *****************
+  // // ************* second row of aliens *****************
 
-  for (let i = 0; i < 8; i++) {
-    teamAliens2.push(aliens)
-    console.log(teamAliens2.length)
-  }
+  // for (let i = 0; i < 8; i++) {
+  //   teamAliens2.push(aliens)
+  //   // console.log(teamAliens2.length)
+  // }
+  // // add the class of aliens to specific indexes in the grid   
 
-  // add the class of aliens to specific indexes in the grid   
+  // // cells[alienIdx].classList.add('alien')
 
-  // cells[alienIdx].classList.add('alien')
+  // // cells[alienIdx += 1].classList.add('aliens')
 
-  // cells[alienIdx += 1].classList.add('aliens')
-
-  teamAliens2.forEach(function(element){
-    console.log(element)
-    cells[alienIdx2 ++].classList.add('aliens')
+  // teamAliens2.forEach(function(element){
+  //   // console.log(element)
+  //   cells[alienIdx2 ++].classList.add('aliens')
 
     
-  })
+  // })
 
+  // const alienMove2 = setInterval(() => {
 
-  const alienMove2 = setInterval(() => {
+  //   const x = Math.floor(alienIdx2 % width)
 
-    const x = Math.floor(alienIdx2 % width)
+  //   // cells[alienIdx].classList.remove('aliens')
 
-    // cells[alienIdx].classList.remove('aliens')
+  //   teamAliens2.forEach(function(element){
+  //     // console.log(element)
+  //     cells[alienIdx2 -= 1 ].classList.remove('aliens')
+  //   })
 
-    teamAliens2.forEach(function(element){
-      console.log(element)
-      cells[alienIdx2 -= 1 ].classList.remove('aliens')
-    })
-
-    //   console.log(alienIdx2)
+  //   //   console.log(alienIdx2)
     
-    // // ******** Sunday - adjust directions & collision detection ************
+  //   // // ******** Sunday - adjust directions & collision detection ************
 
-    if (direction === 1 && alienIdx2 % width === 2) {
-      direction = width 
-    }
+  //   if (direction === 1 && alienIdx2 % width === 2) {
+  //     direction = width 
+  //   }
   
-    alienIdx2 += direction
+  //   alienIdx2 += direction
 
-    teamAliens2.forEach(function (element) {
-      console.log(element)
-      cells[alienIdx2 ++].classList.add('aliens')
+  //   teamAliens2.forEach(function (element) {
+  //     // console.log(element)
+  //     cells[alienIdx2 ++].classList.add('aliens')
   
-    })
+  //   })
 
-  }, 1000)
+  // }, 1000)
 
-  // *********** third row of aliens ***********
+  // // *********** third row of aliens ***********
 
-  for (let i = 0; i < 8; i++) {
-    teamAliens3.push(aliens)
-    console.log(teamAliens2.length)
-  }
+  // for (let i = 0; i < 8; i++) {
+  //   teamAliens3.push(aliens)
+  //   // console.log(teamAliens2.length)
+  // }
 
-  // add the class of aliens to specific indexes in the grid   
+  // // add the class of aliens to specific indexes in the grid   
 
-  // cells[alienIdx].classList.add('alien')
+  // // cells[alienIdx].classList.add('alien')
 
-  // cells[alienIdx += 1].classList.add('aliens')
+  // // cells[alienIdx += 1].classList.add('aliens')
 
-  teamAliens3.forEach(function(element){
-    console.log(element)
-    cells[alienIdx3 ++].classList.add('aliens')
+  // teamAliens3.forEach(function(element){
+  //   // console.log(element)
+  //   cells[alienIdx3 ++].classList.add('aliens')
 
     
-  })
+  // })
 
 
-  const alienMove3 = setInterval(() => {
+  // const alienMove3 = setInterval(() => {
 
-    const x = Math.floor(alienIdx3 % width)
+  //   const x = Math.floor(alienIdx3 % width)
 
-    // cells[alienIdx].classList.remove('aliens')
+  //   // cells[alienIdx].classList.remove('aliens')
 
-    teamAliens3.forEach(function(element){
-      console.log(element)
-      cells[alienIdx3 -= 1 ].classList.remove('aliens')
-    })
+  //   teamAliens3.forEach(function(element){
+  //     // console.log(element)
+  //     cells[alienIdx3 -= 1 ].classList.remove('aliens')
+  //   })
 
-    //   console.log(alienIdx2)
+  //   //   console.log(alienIdx2)
     
-    // // ******** Sunday - adjust directions & collision detection ************
+  //   // // ******** Sunday - adjust directions & collision detection ************
 
-    if (direction === 1 && alienIdx3 % width === 2) {
-      direction = width 
-    }
+  //   if (direction === 1 && alienIdx3 % width === 2) {
+  //     direction = width 
+  //   }
       
-    alienIdx3 += direction
+  //   alienIdx3 += direction
 
-
-    teamAliens3.forEach(function (element) {
-      console.log(element)
-      cells[alienIdx3 ++].classList.add('aliens')
+  //   teamAliens3.forEach(function (element) {
+  //     // console.log(element)
+  //     cells[alienIdx3 ++].classList.add('aliens')
   
-    })
+  //   })
 
-  }, 1000)
+  // }, 1000)
 
 
 
@@ -280,54 +292,87 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keyup', () => {
     
     let bulletIdx = playerIdx - width
+
     if (event.keyCode === 32) {
       cells[bulletIdx].classList.add('bullet')
     
       const bulletMove = setInterval(() => {
         
+        if (bulletIdx < 10) {
+        
+          clearInterval(bulletMove)
+          cells[bulletIdx].classList.remove('bullet')
+        }
+        if (cells[bulletIdx].classList.contains('aliens')) {
+          clearInterval(bulletMove, alienMove)
+          teamAliens = teamAliens.map(alien => {
+            if (alien === bulletIdx) return null
+            return alien
+          })
+          total += 1
+          alert(`Aliens killed: ${total}`)
+
+          if (total === teamAliens.length) {
+            alert('You win!!')
+          } 
+
+          console.log(teamAliens)
+          // cells[bulletIdx].classList.add('new')
+          cells[bulletIdx].classList.remove('aliens')
+        } 
+
         cells[bulletIdx].classList.remove('bullet')
-      
-        bulletIdx -= width
-      
+        bulletIdx -= width        
         cells[bulletIdx].classList.add('bullet')
-      
+
       }, 500) 
     }
   })
+
+
+  
+
+
+  //  ************** Player hits aliens ***************
+
+
+
+  // *******************************************************
      
   const alienBomb = setInterval(() => {
-    let bombIdx = alienIdx + Math.floor(Math.random() * width)
-    console.log(typeof bombIdx)
-    
+    let bombIdx = teamAliens[0] + width + Math.floor(Math.random() * width)
     console.log(bombIdx)
-    // let bombIdx = alienIdx + width
+    
     cells[bombIdx].classList.add('bomb')
-
+  
     const bombDrop = setInterval(() => {
-
+      
       cells[bombIdx].classList.remove('bomb')
       bombIdx += width
       cells[bombIdx].classList.add('bomb')
-
-      if (bombIdx === playerIdx) {
-        alert('you lose!')
-        cells[playerIdx].classList.remove('player')
-        cells[playerIdx].classList.add('player-killed')
-      }
-      // reset page - revisit 
-
-      reset.addEventListener('reset', () => {
-        cells[playerIdx].classList.remove('player-killed')
-        cells[playerIdx].classList.add('player')
-        cells[alienIdx].classList.remove('alien')
+      // } else if (bombIdx > 90) {
+      //   cells[bombIdx].classList.remove('bomb')
+ 
+      if (bombIdx >= 90) {
+        
+        clearInterval(bombDrop)
         cells[bombIdx].classList.remove('bomb')
-        alienIdx = 11
-        cells[alienIdx].classList.add('alien')
-        bombIdx = alienIdx + width
-        cells[bombIdx].classList.add('bomb')
-      
-      })
-          
+      }
+      // ****************************
+     
+      if (bombIdx === playerIdx) {
+        lives -= 1
+        alert(`Lives remaining: ${lives}`)
+  
+        if (lives === 0) {
+          alert('You lose!!')
+          cells[playerIdx].classList.remove('player')
+          cells[playerIdx].classList.add('player-killed')
+          location.reload()
+        } 
+      }
+
+            
     }, 500)
 
   }, 2000)

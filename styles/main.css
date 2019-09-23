@@ -57,6 +57,10 @@ body {
   background-color: pink
 }
 
+.grid div.new {
+  background-color: greenyellow;
+}
+
 
 /* .grid div.player[data-direction="forward"] {
   transform: scaleX(1)
