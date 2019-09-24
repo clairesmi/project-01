@@ -50,12 +50,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // use let for player index as it will be changed later
   const width = 10
   const grid = document.querySelector('.grid')
+  const points = document.querySelector('.points')
+  const lifeCount = document.querySelector('.life-count')
   // const aliens = document.querySelector('.aliens')
   let teamAliens = []
   let teamAliens2 = []
   // const teamAliens3 = []
   const cells = []
-  let playerIdx = 90
+  let playerIdx = 94
   let alienIdx = 21
   let alienIdx2 = alienIdx - width
   // let alienIdx3 = alienIdx2 - width
@@ -165,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
 
-  }, 1000)
+  }, 700)
 
   // *************** refactored second row ****************
 
@@ -206,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
 
-  }, 1000)
+  }, 700)
 
 
   // adds 'player' class to cells at playerIdx on grid
@@ -270,12 +272,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
           })
           total += 100
-          alert(`Space raider killed! Points: ${total}`)
+          points.innerHTML = (`points total: ${total}`)
 
-          if (total === teamAliens.length * 100) {
+          if (total === (teamAliens.length + 1) * 100) {
             alert('You win!!')
+            location.reload()
           }
-        
+
           cells[bulletIdx].classList.remove('aliens')
         } 
 
@@ -283,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
         bulletIdx -= width        
         cells[bulletIdx].classList.add('bullet')
 
-      }, 500) 
+      }, 200) 
     }
   })
   // *******************************************************
@@ -314,7 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
      
       if (bombIdx === playerIdx && lives > 0) {
         lives -= 1
-        alert(`Lives remaining: ${lives}`)
+        lifeCount.innerHTML = (`lives remaining: ${lives}`)
   
         if (lives === 0) {
           cells[bombIdx].classList.remove('bomb')
@@ -325,8 +328,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } 
       }
             
-    }, 700)
+    }, 300)
 
-  }, 2000)
+  }, 1000)
 
 })
