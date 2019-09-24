@@ -22,11 +22,12 @@ header {
   color: aquamarine;
   justify-content: right;
   display: flex;
-  margin: 0px 50px;
+  margin: 0px 100px;
   
 }
 
 section {
+  margin: 100px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -124,4 +125,17 @@ section {
 }
 
 
+.hide {
+  display: none; 
+}
 
+
+.win {
+  font-size: 50px; 
+}
+
+
+
+.lose {
+  font-size: 50px; 
+} 

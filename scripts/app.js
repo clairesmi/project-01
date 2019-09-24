@@ -52,6 +52,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.grid')
   const points = document.querySelector('.points')
   const lifeCount = document.querySelector('.life-count')
+  
+  const win = document.querySelector('.win')
+  const lose = document.querySelector('.lose')
+  const instructions = document.querySelector('.instructions')
+  const reset = document.querySelector('.reset')
+ 
+
   // const aliens = document.querySelector('.aliens')
   let teamAliens = []
   let teamAliens2 = []
@@ -67,8 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let total = 0
   let lives = 3
 
-  const reset = document.querySelector('.reset')
-
   // function to add player to event target class list - to be called to move player around the grid
   function handleClick(e) {
     e.target.classList.add('player')
@@ -83,22 +88,21 @@ document.addEventListener('DOMContentLoaded', () => {
     cells.push(cell)
   }
 
+  win.classList.add('hide')
+  lose.classList.add('hide')
+
   // Alien movement row 1
   for (let i = 0; i < 8; i++) {
     cells[alienIdx ++].classList.add('aliens')
     // const aliens = document.querySelector('.aliens')
     teamAliens.push(alienIdx - 1)
-    // console.log(teamAliens.length)
   }
   // Alien movement row 2
   for (let i = 0; i < 8; i++) {
     cells[alienIdx2 ++].classList.add('aliens')
     // const aliens = document.querySelector('.aliens')
     teamAliens2.push(alienIdx2 - 1)
-    // console.log(teamAliens.length)
   }
-  console.log(teamAliens)
-  console.log(teamAliens2)
 
   // add the class of aliens to specific indexes in the grid   
 
@@ -152,6 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
       
     // alienIdx += direction
     // alienIdx += 1
+
+    // ****** Lose from alien collision with player
     teamAliens.forEach((element) => {
       if (element) {
         cells[element].classList.add('aliens')
@@ -160,10 +166,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
           cells[element].classList.remove('aliens')
           cells[element].classList.remove('player')
-          alert('you lose!')
-          location.reload()
+          // alert('you lose!')
+          // location.reload()
+
+          setTimeout(() => {
+            grid.classList.add('hide')
+            instructions.classList.add('hide')
+            
+          }, 1000)
+          setTimeout(() => {
+            lose.classList.replace('hide', 'lose')
+            reset.classList.add('reset')
+          }, 1000) 
 
         }  
+         
       }
     })
 
@@ -199,10 +216,24 @@ document.addEventListener('DOMContentLoaded', () => {
         cells[element2].classList.add('aliens')
 
         if (cells[element2].classList.contains('player')) {
+
           cells[element2].classList.remove('aliens')
           cells[element2].classList.remove('player')
-          alert('you lose!')
-          location.reload()
+
+          setTimeout(() => {
+            grid.classList.add('hide')
+            instructions.classList.add('hide')
+            
+          }, 200)
+          setTimeout(() => {
+            lose.classList.replace('hide', 'lose')
+
+          }, 400) 
+
+
+          // alert('you lose!')
+      
+          // location.reload()
 
         }  
       }
@@ -274,10 +305,22 @@ document.addEventListener('DOMContentLoaded', () => {
           total += 100
           points.innerHTML = (`points total: ${total}`)
 
-          if (total === (teamAliens.length + 1) * 100) {
-            alert('You win!!')
-            location.reload()
+          if (total === (teamAliens.length) * 100) {
+            setTimeout(() => {
+              grid.classList.add('hide')
+              instructions.classList.add('hide')
+
+            }, 200)
+            setTimeout(() => {
+              win.classList.replace('hide', 'win')
+
+            }, 400) 
+            
+            
+            // alert('You win!!')
+            // location.reload()
           }
+          // location.reload()
 
           cells[bulletIdx].classList.remove('aliens')
         } 
@@ -321,10 +364,21 @@ document.addEventListener('DOMContentLoaded', () => {
   
         if (lives === 0) {
           cells[bombIdx].classList.remove('bomb')
-          alert('You lose!!')
+          // alert('You lose!!')
           cells[playerIdx].classList.remove('player')
-          cells[playerIdx].classList.add('player-killed')
-          location.reload()
+          // cells[playerIdx].classList.add('player-killed')
+
+          setTimeout(() => {
+            grid.classList.add('hide')
+            instructions.classList.add('hide')
+            
+          }, 200)
+          setTimeout(() => {
+            lose.classList.replace('hide', 'lose')
+
+          }, 1000) 
+
+          // location.reload()
         } 
       }
             
