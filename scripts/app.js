@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   win.classList.add('hide')
   lose.classList.add('hide')
+  reset.classList.add('hide')
 
   // Alien movement row 1
   for (let i = 0; i < 8; i++) {
@@ -172,19 +173,22 @@ document.addEventListener('DOMContentLoaded', () => {
           setTimeout(() => {
             grid.classList.add('hide')
             instructions.classList.add('hide')
+            reset.classList.remove('hide')
+            lifeCount.innerHTML = (`lives remaining: ${0}`)
             
-          }, 1000)
+          }, 200)
           setTimeout(() => {
-            lose.classList.replace('hide', 'lose')
-            reset.classList.add('reset')
-          }, 1000) 
+            lose.classList.replace('hide', 'lose', 'reset')
+            // lifeCount.innerHTML = (`lives remaining: ${0}`)
+          }, 400) 
+          
 
         }  
          
       }
     })
 
-  }, 700)
+  }, 1000)
 
   // *************** refactored second row ****************
 
@@ -223,24 +227,19 @@ document.addEventListener('DOMContentLoaded', () => {
           setTimeout(() => {
             grid.classList.add('hide')
             instructions.classList.add('hide')
+            reset.classList.remove('hide')
             
           }, 200)
           setTimeout(() => {
-            lose.classList.replace('hide', 'lose')
+            lose.classList.replace('hide', 'lose', 'reset')
 
           }, 400) 
-
-
-          // alert('you lose!')
-      
-          // location.reload()
 
         }  
       }
     })
 
-  }, 700)
-
+  }, 1000)
 
   // adds 'player' class to cells at playerIdx on grid
   cells[playerIdx].classList.add('player')
@@ -288,8 +287,9 @@ document.addEventListener('DOMContentLoaded', () => {
           cells[bulletIdx].classList.remove('bullet')
         }
 
-        // ********* killing aliens
+        // ********* killing aliens ***********
         if (cells[bulletIdx].classList.contains('aliens')) {
+
           clearInterval(bulletMove, alienMove)
           teamAliens = teamAliens.map(alien => {
             if (alien === bulletIdx) return null
@@ -302,6 +302,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return alien2
 
           })
+         
+
           total += 100
           points.innerHTML = (`points total: ${total}`)
 
@@ -309,34 +311,34 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
               grid.classList.add('hide')
               instructions.classList.add('hide')
+              reset.classList.remove('hide')
+              // lose.classList.add('hide')
 
             }, 200)
             setTimeout(() => {
-              win.classList.replace('hide', 'win')
+              win.classList.replace('hide', 'win', 'reset')
+              lose.classList.add('hide')
 
-            }, 400) 
+            }, 400)  
             
-            
-            // alert('You win!!')
-            // location.reload()
           }
-          // location.reload()
 
           cells[bulletIdx].classList.remove('aliens')
+
         } 
 
         cells[bulletIdx].classList.remove('bullet')
         bulletIdx -= width        
         cells[bulletIdx].classList.add('bullet')
 
-      }, 200) 
+      }, 300) 
     }
   })
   // *******************************************************
      
   const alienBomb = setInterval(() => {
     let bombIdx = teamAliens[0] + width + Math.floor(Math.random() * width)
-    console.log(bombIdx)
+
     
     cells[bombIdx].classList.add('bomb')  
     const bombDrop = setInterval(() => {
@@ -351,39 +353,46 @@ document.addEventListener('DOMContentLoaded', () => {
         bombIdx += width
         cells[bombIdx].classList.add('bomb')
       }
-      if (bombIdx >= 90) {
-        
-        clearInterval(bombDrop)
-        cells[bombIdx].classList.remove('bomb')
-      }
+
       // ****************************
      
       if (bombIdx === playerIdx && lives > 0) {
         lives -= 1
         lifeCount.innerHTML = (`lives remaining: ${lives}`)
+
+        cells[bombIdx - width].classList.add('player-killed')
+
+        setTimeout(() => {
+          cells[bombIdx - width].classList.remove('player-killed')
+        }, 200)
+
   
         if (lives === 0) {
           cells[bombIdx].classList.remove('bomb')
-          // alert('You lose!!')
           cells[playerIdx].classList.remove('player')
-          // cells[playerIdx].classList.add('player-killed')
+
 
           setTimeout(() => {
             grid.classList.add('hide')
             instructions.classList.add('hide')
+            reset.classList.remove('hide')
             
           }, 200)
           setTimeout(() => {
-            lose.classList.replace('hide', 'lose')
+            lose.classList.replace('hide', 'lose', 'reset')
+            win.classList.add('hide')
 
-          }, 1000) 
-
-          // location.reload()
+          }, 400) 
         } 
       }
             
     }, 300)
 
   }, 1000)
+
+  reset.addEventListener('click', () => {
+    location.reload()
+  })
+
 
 })
