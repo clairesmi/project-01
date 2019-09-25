@@ -109,6 +109,7 @@ section {
 .points {
   font-family: 'Fredoka One', cursive;
   font-size: 20px;
+  text-align: center;
   color: aquamarine;
   margin: 50px;
   padding: 20px 100px 20px 20px;
@@ -119,6 +120,7 @@ section {
 .life-count {
   font-family: 'Fredoka One', cursive;
   font-size: 20px;
+  text-align: center;
   color: aquamarine;
   margin: 20px 50px;
   padding: 20px 100px 20px 20px;
@@ -147,4 +149,18 @@ section {
 
 .reset {
   align-content: center;
+  background-color: #9274E8;
+  box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.8);
+  border: none;
+  margin: 40px;
+  padding: 20px 5px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 20px;
+  
+
+}
+
+.reset:hover {
+ opacity: 0.5;
+ cursor: grab;
 }

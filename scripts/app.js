@@ -132,6 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
       direction = 1
     }
 
+
     // using map on our alien index array, to always update based on the direction
     teamAliens = teamAliens.map(alien => alien ? alien + direction : null)
     // if (direction === 1) {
@@ -143,8 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // if (direction === -1) {
     //   teamAliens = teamAliens.map(alien =>  alien ? alien - 1 : null) 
     // }
-
-    console.log(teamAliens)
 
     // if (direction === 1 && x === width - 1) {
     //   direction = width 
@@ -190,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   }, 1000)
 
+
   // *************** refactored second row ****************
 
   const alienMove2 = setInterval(() => {
@@ -213,7 +213,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // using map on our alien index array, to always update based on the direction
     teamAliens2 = teamAliens2.map(alien2 => alien2 ? alien2 + direction2 : null)
 
-    console.log(teamAliens2)
     
     teamAliens2.forEach((element2) => {
       if (element2) {
@@ -236,6 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }, 400) 
 
         }  
+        
       }
     })
 
@@ -339,10 +339,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const alienBomb = setInterval(() => {
     let bombIdx = teamAliens[0] + width + Math.floor(Math.random() * width)
 
-    
-    cells[bombIdx].classList.add('bomb')  
     const bombDrop = setInterval(() => {
-
+      
       if (bombIdx >= 90) {
         
         clearInterval(bombDrop)
@@ -389,6 +387,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 300)
 
   }, 1000)
+
 
   reset.addEventListener('click', () => {
     location.reload()
