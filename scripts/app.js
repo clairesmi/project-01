@@ -1,5 +1,3 @@
-console.log('JS Loaded')
-
 // ******** instructions ***********
 
 // Space Invaders is a classic arcade game from the 80s. 
@@ -35,19 +33,9 @@ console.log('JS Loaded')
 // added extra - instructions to appear on screen on load - one letter at a time 
 // 5 second countdown on loading page
 
-
-
-// RESET - MONDAY ************
-// reset game - use rps game for reset ref
-// create total score and points countdown
-
-
-
-
 document.addEventListener('DOMContentLoaded', () => {
-  // sets size of grid - create array for cells to avoid multiple divs in html
-  // also sets player position within the array of cells 
-  // use let for player index as it will be changed later
+
+  // GRID AND VARIABLE SETUP 
   const width = 10
   const grid = document.querySelector('.grid')
   const points = document.querySelector('.points')
@@ -57,33 +45,78 @@ document.addEventListener('DOMContentLoaded', () => {
   const lose = document.querySelector('.lose')
   const instructions = document.querySelector('.instructions')
   const reset = document.querySelector('.reset')
- 
+  const cells = []
 
-  // const aliens = document.querySelector('.aliens')
   let teamAliens = []
   let teamAliens2 = []
-  // const teamAliens3 = []
-  const cells = []
   let playerIdx = 94
   let alienIdx = 21
   let alienIdx2 = alienIdx - width
-  // let alienIdx3 = alienIdx2 - width
   let bulletIdx = playerIdx - width
+  let bombIdx = teamAliens[0] + width + Math.floor(Math.random() * width)
   let direction = 1
   let direction2 = 1
   let total = 0
   let lives = 3
 
-  // function to add player to event target class list - to be called to move player around the grid
-  function handleClick(e) {
-    e.target.classList.add('player')
+  // WIN CONDITION
+  function playerWin() {
+    if (total === (teamAliens.length) * 100) {
+      setTimeout(() => {
+        grid.classList.add('hide')
+        instructions.classList.add('hide')
+        reset.classList.remove('hide')
+      }, 200)
+      setTimeout(() => {
+        win.classList.replace('hide', 'win', 'reset')
+      }, 400)  
+    }
   }
-  // for loop to create grid without adding too many divs 
+  // ALIEN COLLIDE LOSE CONDITION
+  function aliensCollide() {
+    teamAliens.forEach((element) => {
+      if (element) {
+        cells[element].classList.add('aliens')
+        if (cells[element].classList.contains('player')) {
+          cells[element].classList.remove('aliens', 'player')
+          setTimeout(() => {
+            grid.classList.add('hide')
+            instructions.classList.add('hide')
+            reset.classList.remove('hide')
+            lifeCount.innerHTML = (`lives remaining: ${0}`)
+          }, 200)
+          setTimeout(() => {
+            lose.classList.replace('hide', 'lose', 'reset')
+          }, 400) 
+        }          
+      }
+    })
+  }
+  // ALIENS COLLIDE ROW 2
+  function aliensCollide2 () {
+      
+    teamAliens2.forEach((element2) => {
+      if (element2) {
+        cells[element2].classList.add('aliens')
+        if (cells[element2].classList.contains('player')) {
+          cells[element2].classList.remove('aliens')
+          cells[element2].classList.remove('player')
+          setTimeout(() => {
+            grid.classList.add('hide')
+            instructions.classList.add('hide')
+            reset.classList.remove('hide')
+            lifeCount.innerHTML = (`lives remaining: ${0}`)
+          }, 200)
+          setTimeout(() => {
+            lose.classList.replace('hide', 'lose', 'reset')
+          }, 400) 
+        }  
+      }
+    })
+  }
+
   for (let i = 0; i < width ** 2; i++) {
-    const cell = document.createElement('DIV')
-    // add event listener of 'click' to each cell with the argument of handleClick 
-    // cell.addEventListener('click', handleClick)
-    // makes each cell a child of grid and pushes cell into cells array
+    const cell = document.createElement('DIV') 
     grid.appendChild(cell)
     cells.push(cell)
   }
@@ -95,155 +128,50 @@ document.addEventListener('DOMContentLoaded', () => {
   // Alien movement row 1
   for (let i = 0; i < 8; i++) {
     cells[alienIdx ++].classList.add('aliens')
-    // const aliens = document.querySelector('.aliens')
     teamAliens.push(alienIdx - 1)
   }
   // Alien movement row 2
   for (let i = 0; i < 8; i++) {
     cells[alienIdx2 ++].classList.add('aliens')
-    // const aliens = document.querySelector('.aliens')
     teamAliens2.push(alienIdx2 - 1)
   }
 
-  // add the class of aliens to specific indexes in the grid   
-
+  // ALIEN MOVEMENTS
   const alienMove = setInterval(() => {
-
-    const x = Math.floor(alienIdx % width)
     cells.forEach(cell => cell.classList.remove('aliens', 'bullet', 'new'))
-    // teamAliens.forEach(function(element){
-    //   // console.log(element)
-    //   cells[alienIdx -= 1 ].classList.remove('aliens')
-    // })
 
-    // console.log(alienIdx)
-    
-    // // ******** Sunday - adjust directions & collision detection ************
     if (direction === 1 && teamAliens[0] % width === 2) {
       direction = width 
-
     } else if (direction === width && teamAliens[0] % width === 2 ) {
       direction = -1
-
     } else if (direction === -1 && teamAliens[0] % width === 0) {
       direction = width
-
     } else if (direction === width && teamAliens[0] % width === 0) {
       direction = 1
     }
-
-
-    // using map on our alien index array, to always update based on the direction
     teamAliens = teamAliens.map(alien => alien ? alien + direction : null)
-    // if (direction === 1) {
-    //   teamAliens = teamAliens.map(alien => alien ? alien + 1 : null)
-    // }
-    // if (direction === width) {
-    //   teamAliens = teamAliens.map(alien => alien ? alien + width : null)
-    // } 
-    // if (direction === -1) {
-    //   teamAliens = teamAliens.map(alien =>  alien ? alien - 1 : null) 
-    // }
-
-    // if (direction === 1 && x === width - 1) {
-    //   direction = width 
-    // } else if (direction === width && x === width - 1) {
-    //   direction = -1
-    // } else if (direction === -1 && x === 0) {
-    //   direction = width
-    // } else if (direction === width && x === 0) 
-    //   direction = 1
-      
-    // alienIdx += direction
-    // alienIdx += 1
-
-    // ****** Lose from alien collision with player
-    teamAliens.forEach((element) => {
-      if (element) {
-        cells[element].classList.add('aliens')
-        
-        if (cells[element].classList.contains('player')) {
-
-          cells[element].classList.remove('aliens')
-          cells[element].classList.remove('player')
-          // alert('you lose!')
-          // location.reload()
-
-          setTimeout(() => {
-            grid.classList.add('hide')
-            instructions.classList.add('hide')
-            reset.classList.remove('hide')
-            lifeCount.innerHTML = (`lives remaining: ${0}`)
-            
-          }, 200)
-          setTimeout(() => {
-            lose.classList.replace('hide', 'lose', 'reset')
-            // lifeCount.innerHTML = (`lives remaining: ${0}`)
-          }, 400) 
-          
-
-        }  
-         
-      }
-    })
-
+    aliensCollide()
+ 
   }, 1000)
 
-
-  // *************** refactored second row ****************
-
   const alienMove2 = setInterval(() => {
-
-    const x = Math.floor(alienIdx2 % width)
-    
-    // cells.forEach(cell => cell.classList.remove('aliens', 'bullet', 'new'))
 
     if (direction2 === 1 && teamAliens2[0] % width === 2) {
       direction2 = width 
     } else if (direction2 === width && teamAliens2[0] % width === 2 ) {
       direction2 = -1
-
     } else if (direction2 === -1 && teamAliens2[0] % width === 0) {
       direction2 = width
-
     } else if (direction2 === width && teamAliens2[0] % width === 0) {
       direction2 = 1
     }
-
-    // using map on our alien index array, to always update based on the direction
     teamAliens2 = teamAliens2.map(alien2 => alien2 ? alien2 + direction2 : null)
-
-    
-    teamAliens2.forEach((element2) => {
-      if (element2) {
-        cells[element2].classList.add('aliens')
-
-        if (cells[element2].classList.contains('player')) {
-
-          cells[element2].classList.remove('aliens')
-          cells[element2].classList.remove('player')
-
-          setTimeout(() => {
-            grid.classList.add('hide')
-            instructions.classList.add('hide')
-            reset.classList.remove('hide')
-            
-          }, 200)
-          setTimeout(() => {
-            lose.classList.replace('hide', 'lose', 'reset')
-
-          }, 400) 
-
-        }  
-        
-      }
-    })
+    aliensCollide2()
 
   }, 1000)
 
-  // adds 'player' class to cells at playerIdx on grid
+  // ADD PLAYER TO GRID
   cells[playerIdx].classList.add('player')
-  // adds event listener on keyup - removes 'player' from class list at cells[playerindex] / grid position
   document.addEventListener('keydown', (e) => {
 
     cells[playerIdx].classList.remove('player')
@@ -251,147 +179,105 @@ document.addEventListener('DOMContentLoaded', () => {
     const y = Math.floor(playerIdx / width)
 
     switch (e.keyCode) {
-      // x and y axis
-    // if x is bigger than 0 then 37(west) moves player left one cell  
       case 37: if (x > 0) playerIdx -= 1
         break
-        // if y is bigger than 0 move - spaces of the width size (up)
       case 38: if (y > 90) playerIdx -= width
         break
-        // if x is smaller than width -1 (converting grid size to array) 
-        // player moves + 1 through the index array 
       case 39: if (x < width - 1) playerIdx += 1
         break
-        // if y is smaller than width -1 player moves + spaces of width size (down)
       case 40: if (y < width - 1) playerIdx += width
         break
     }
-    // adds 'player' class to cell at new position 
     cells[playerIdx].classList.add('player')
   })
 
-  // bullet from shooter to alien
-
-  document.addEventListener('keyup', () => {
-    
+  // BULLET MOVEMENT AND CONDITION IF PLAYER SHOOTS ALIEN
+  document.addEventListener('keyup', () => {    
     let bulletIdx = playerIdx - width
-
+    
     if (event.keyCode === 32) {
       cells[bulletIdx].classList.add('bullet')
-    
-      const bulletMove = setInterval(() => {
-        
-        if (bulletIdx < 10) {
-        
-          clearInterval(bulletMove)
-          cells[bulletIdx].classList.remove('bullet')
-        }
 
-        // ********* killing aliens ***********
+      const bulletMove = setInterval(() => {        
+        cells[bulletIdx].classList.remove('bullet')
+        // }
+
+        // SEPARATE FUNCTION FOR BULLET COLLISION WITH ALIENS 
         if (cells[bulletIdx].classList.contains('aliens')) {
-
           clearInterval(bulletMove, alienMove)
+
           teamAliens = teamAliens.map(alien => {
             if (alien === bulletIdx) return null
-
             return alien
           })
-
           teamAliens2 = teamAliens2.map(alien2 => {
             if (alien2 === bulletIdx) return null
             return alien2
-
           })
-         
-
           total += 100
           points.innerHTML = (`points total: ${total}`)
 
-          if (total === (teamAliens.length) * 100) {
-            setTimeout(() => {
-              grid.classList.add('hide')
-              instructions.classList.add('hide')
-              reset.classList.remove('hide')
-              // lose.classList.add('hide')
-
-            }, 200)
-            setTimeout(() => {
-              win.classList.replace('hide', 'win', 'reset')
-              lose.classList.add('hide')
-
-            }, 400)  
-            
-          }
+          playerWin()
 
           cells[bulletIdx].classList.remove('aliens')
-
         } 
-
-        cells[bulletIdx].classList.remove('bullet')
-        bulletIdx -= width        
-        cells[bulletIdx].classList.add('bullet')
+        cells[bulletIdx].classList.remove('bullet') 
+        if (bulletIdx > 10) {
+          bulletIdx -= width  
+          cells[bulletIdx].classList.add('bullet')
+        } else if (bulletIdx < 0) {
+          cells[bulletIdx].classList.remove('bullet')
+        }
 
       }, 300) 
     }
+    
   })
-  // *******************************************************
-     
+
+  // ALIENS BOMB THE PLAYER
   const alienBomb = setInterval(() => {
     let bombIdx = teamAliens[0] + width + Math.floor(Math.random() * width)
+    cells[bombIdx].classList.add('bomb')
 
-    const bombDrop = setInterval(() => {
-      
-      if (bombIdx >= 90) {
-        
-        clearInterval(bombDrop)
+    const bombDrop = setInterval(() => {  
+
+      if (bombIdx === playerIdx && lives !== 0) {
         cells[bombIdx].classList.remove('bomb')
-      } else {
-      
+        lives -= 1
+        cells[bombIdx - width].classList.add('player-killed')
+      }
+      setTimeout(() => {
+        cells[bombIdx - width].classList.remove('player-killed')
+      }, 200)
+
+      if (bombIdx < 90) {
         cells[bombIdx].classList.remove('bomb')
         bombIdx += width
         cells[bombIdx].classList.add('bomb')
+      } else if (bombIdx >= 90) {
+        clearInterval(bombDrop)
+        cells[bombIdx].classList.remove('bomb')
       }
 
-      // ****************************
-     
-      if (bombIdx === playerIdx && lives > 0) {
-        lives -= 1
-        lifeCount.innerHTML = (`lives remaining: ${lives}`)
-
-        cells[bombIdx - width].classList.add('player-killed')
-
+      if (lives === 0) {
+        cells[playerIdx].classList.remove('player')
         setTimeout(() => {
-          cells[bombIdx - width].classList.remove('player-killed')
+          grid.classList.add('hide')
+          instructions.classList.add('hide')
+          reset.classList.remove('hide')
         }, 200)
-
-  
-        if (lives === 0) {
-          cells[bombIdx].classList.remove('bomb')
-          cells[playerIdx].classList.remove('player')
-
-
-          setTimeout(() => {
-            grid.classList.add('hide')
-            instructions.classList.add('hide')
-            reset.classList.remove('hide')
-            
-          }, 200)
-          setTimeout(() => {
-            lose.classList.replace('hide', 'lose', 'reset')
-            win.classList.add('hide')
-
-          }, 400) 
-        } 
+        setTimeout(() => {
+          lose.classList.replace('hide', 'lose', 'reset')
+          win.classList.add('hide')
+        }, 400)
+        
       }
-            
+      lifeCount.innerHTML = (`lives remaining: ${lives}`)
+
     }, 300)
-
-  }, 1000)
-
-
+  }, 2000)
+  
   reset.addEventListener('click', () => {
     location.reload()
-  })
-
-
+  })  
 })
