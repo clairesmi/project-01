@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
   
   const win = document.querySelector('.win')
   const lose = document.querySelector('.lose')
-  const countDown = document.querySelector('.countdown')
   const instructions = document.querySelector('.instructions')
   const reset = document.querySelector('.reset')
   const starter = document.querySelector('.starter')
@@ -128,7 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
     points.classList.add('hide')
     lifeCount.classList.add('hide')
     instructions.classList.remove('hide')
-    countDown.classList.add('hide')
 
   }, 200)
 
@@ -140,9 +138,9 @@ document.addEventListener('DOMContentLoaded', () => {
       points.classList.remove('hide')
       lifeCount.classList.remove('hide')
       starter.classList.add('hide')
-      countDown.classList.add('hide')
     })
   }, 1500)
+
 
   for (let i = 0; i < width ** 2; i++) {
     const cell = document.createElement('DIV') 
