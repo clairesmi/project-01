@@ -43,8 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
   
   const win = document.querySelector('.win')
   const lose = document.querySelector('.lose')
+  const countDown = document.querySelector('.countdown')
   const instructions = document.querySelector('.instructions')
   const reset = document.querySelector('.reset')
+  const starter = document.querySelector('.starter')
   const cells = []
 
   let teamAliens = []
@@ -62,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // WIN CONDITION
   function playerWin() {
-    if (total === (teamAliens.length) * 100) {
+    if (total === (teamAliens.length * 2) * 100) {
       setTimeout(() => {
         grid.classList.add('hide')
         instructions.classList.add('hide')
@@ -121,6 +123,26 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
   }
+
+  setTimeout(() => {
+    points.classList.add('hide')
+    lifeCount.classList.add('hide')
+    instructions.classList.remove('hide')
+    countDown.classList.add('hide')
+
+  }, 200)
+
+  starter.addEventListener('click', () => {
+
+    setTimeout(() => {
+      grid.classList.remove('hide')
+      instructions.classList.add('hide')
+      points.classList.remove('hide')
+      lifeCount.classList.remove('hide')
+      starter.classList.add('hide')
+      countDown.classList.add('hide')
+    })
+  }, 1500)
 
   for (let i = 0; i < width ** 2; i++) {
     const cell = document.createElement('DIV') 
@@ -205,7 +227,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const bulletMove = setInterval(() => {        
         cells[bulletIdx].classList.remove('bullet')
-        // }
 
         // SEPARATE FUNCTION FOR BULLET COLLISION WITH ALIENS 
         if (cells[bulletIdx].classList.contains('aliens')) {
@@ -256,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       setTimeout(() => {
         cells[bombIdx - width].classList.remove('player-killed')
-      }, 200)
+      }, 100)
 
       if (bombIdx < 90) {
         cells[bombIdx].classList.remove('bomb')
@@ -277,13 +298,14 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
           lose.classList.replace('hide', 'lose', 'reset')
           win.classList.add('hide')
+          starter.classList.add('hide')
         }, 400)
         
       }
       lifeCount.innerHTML = (`lives remaining: ${lives}`)
 
-    }, 300)
-  }, 2000)
+    }, 200)
+  }, 1000)
   
   reset.addEventListener('click', () => {
     location.reload()
