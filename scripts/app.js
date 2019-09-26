@@ -52,12 +52,13 @@ document.addEventListener('DOMContentLoaded', () => {
   let playerIdx = 94
   let alienIdx = 21
   let alienIdx2 = alienIdx - width
-  let bulletIdx = playerIdx - width
-  let bombIdx = teamAliens[0] + width + Math.floor(Math.random() * width)
+  const bulletIdx = playerIdx - width
+  const bombIdx = teamAliens[0] + width + Math.floor(Math.random() * width)
   let direction = 1
   let direction2 = 1
   let total = 0
   let lives = 3
+  let gameOver = false
 
   // WIN CONDITION
   function playerWin() {
@@ -79,6 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
         cells[element].classList.add('aliens')
         if (cells[element].classList.contains('player')) {
           cells[element].classList.remove('aliens', 'player')
+          clearInterval(alienMove)
+          gameOver = true
+
           setTimeout(() => {
             grid.classList.add('hide')
             instructions.classList.add('hide')
@@ -87,20 +91,23 @@ document.addEventListener('DOMContentLoaded', () => {
           }, 200)
           setTimeout(() => {
             lose.classList.replace('hide', 'lose', 'reset')
-          }, 400) 
-        }          
-      }
+          }, 400)
+        }
+      }              
     })
   }
-  // ALIENS COLLIDE ROW 2
+  // ALIENS COLLIDE ROW 2 LOSE CONDITION
   function aliensCollide2 () {
-      
-    teamAliens2.forEach((element2) => {
-      if (element2) {
-        cells[element2].classList.add('aliens')
-        if (cells[element2].classList.contains('player')) {
-          cells[element2].classList.remove('aliens')
-          cells[element2].classList.remove('player')
+    if (gameOver) return
+    teamAliens2.forEach((element) => {
+      if (element) {
+        cells[element].classList.add('aliens')
+        if (cells[element].classList.contains('player')) {
+          cells[element].classList.remove('aliens')
+          cells[element].classList.remove('player')
+          clearInterval(alienMove2)
+          gameOver = true
+
           setTimeout(() => {
             grid.classList.add('hide')
             instructions.classList.add('hide')
@@ -109,8 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
           }, 200)
           setTimeout(() => {
             lose.classList.replace('hide', 'lose', 'reset')
-          }, 400) 
-        }  
+          }, 400)
+        }
       }
     })
   }
@@ -138,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ALIEN MOVEMENTS
   const alienMove = setInterval(() => {
-    cells.forEach(cell => cell.classList.remove('aliens', 'bullet', 'new'))
+    cells.forEach(cell => cell.classList.remove('aliens', 'bullet'))
 
     if (direction === 1 && teamAliens[0] % width === 2) {
       direction = width 
@@ -151,7 +158,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     teamAliens = teamAliens.map(alien => alien ? alien + direction : null)
     aliensCollide()
- 
   }, 1000)
 
   const alienMove2 = setInterval(() => {
@@ -165,9 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (direction2 === width && teamAliens2[0] % width === 0) {
       direction2 = 1
     }
-    teamAliens2 = teamAliens2.map(alien2 => alien2 ? alien2 + direction2 : null)
+    teamAliens2 = teamAliens2.map(alien => alien ? alien + direction2 : null)
     aliensCollide2()
-
   }, 1000)
 
   // ADD PLAYER TO GRID
@@ -237,10 +242,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // ALIENS BOMB THE PLAYER
   const alienBomb = setInterval(() => {
     let bombIdx = teamAliens[0] + width + Math.floor(Math.random() * width)
-    cells[bombIdx].classList.add('bomb')
-
+    if (bombIdx <= 90) {
+      cells[bombIdx].classList.add('bomb')
+    } else {
+      clearInterval(alienBomb)
+    }
     const bombDrop = setInterval(() => {  
-
+      
       if (bombIdx === playerIdx && lives !== 0) {
         cells[bombIdx].classList.remove('bomb')
         lives -= 1
@@ -279,5 +287,6 @@ document.addEventListener('DOMContentLoaded', () => {
   
   reset.addEventListener('click', () => {
     location.reload()
+    gameOver = false
   })  
 })
