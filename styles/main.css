@@ -23,6 +23,7 @@ header {
   justify-content: right;
   display: flex;
   margin: 0px 100px;
+  /* border: 1px solid #FFAB3B; */
   
 }
 
@@ -61,10 +62,11 @@ section {
 .grid div {
   /* border: 1px solid; */
   flex-grow: 1;
+  /* flex-wrap: wrap; */
   height: 10%;
   width: 10%;
-  /* min-width: 70px;
-  min-height: 70px; */
+  /* min-width: 40px;
+  min-height: 40px; */
 }
 
 .grid div.player {
@@ -114,29 +116,33 @@ section {
   color: aquamarine;
   margin: 10px;
   padding: 20px 10px 20px 20px;
-  /* border: 1px solid black; */
+  /* border: 1px dotted #FFAB3B; */
   font-size: 20px;
+  letter-spacing: 3px;
+  
 }
 
 .points {
+  flex-wrap: wrap;
   font-family: 'Fredoka One', cursive;
   font-size: 20px;
   text-align: center;
   color: aquamarine;
   margin: 50px;
   padding: 20px 100px 20px 20px;
-  /* border: 1px solid black; */
+  border: 1px dotted #FFAB3B;
   font-size: 20px;
 }
 
 .life-count {
+  flex-wrap: wrap;
   font-family: 'Fredoka One', cursive;
   font-size: 20px;
   text-align: center;
   color: aquamarine;
   margin: 20px 50px;
   padding: 20px 100px 20px 20px;
-  /* border: 1px solid black; */
+  border: 1px dotted #FFAB3B;
   font-size: 20px;
 }
 

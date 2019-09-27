@@ -178,6 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     teamAliens = teamAliens.map(alien => alien ? alien + direction : null)
     aliensCollide()
+  
   }, 1000)
 
   const alienMove2 = setInterval(() => {
@@ -194,6 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
     teamAliens2 = teamAliens2.map(alien => alien ? alien + direction2 : null)
     aliensCollide2()
   }, 1000)
+
 
   // ADD PLAYER TO GRID
   cells[playerIdx].classList.add('player')
@@ -260,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ALIENS BOMB THE PLAYER
   const alienBomb = setInterval(() => {
-    let bombIdx = teamAliens[0] + width + Math.floor(Math.random() * width)
+    let bombIdx = (teamAliens[0] + width) + Math.floor(Math.random() * width)
     if (bombIdx <= 90) {
       cells[bombIdx].classList.add('bomb')
     } else {
@@ -275,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       setTimeout(() => {
         cells[bombIdx - width].classList.remove('player-killed')
-      }, 100)
+      }, 200)
 
       if (bombIdx < 90) {
         cells[bombIdx].classList.remove('bomb')
@@ -302,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       lifeCount.innerHTML = (`lives remaining: ${lives}`)
 
-    }, 200)
+    }, 300)
   }, 1000)
   
   reset.addEventListener('click', () => {
