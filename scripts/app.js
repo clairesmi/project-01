@@ -92,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }, 200)
           setTimeout(() => {
             lose.classList.replace('hide', 'lose', 'reset')
+            lifeCount.innerHTML = (`lives remaining: ${0}`)
           }, 400)
         }
       }              

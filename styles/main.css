@@ -22,9 +22,7 @@ header {
   color: aquamarine;
   justify-content: right;
   display: flex;
-  margin: 0px 100px;
-  /* border: 1px solid #FFAB3B; */
-  
+  margin: 0px 100px;  
 }
 
 section {
@@ -47,7 +45,7 @@ section {
 
 .grid {
   align-items: center;
-  /* box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.8); */
+  box-shadow: 0 0 100px 0 rgba(0, 0, 0, 0.5);
   display: flex;
   flex-grow: 1;
   flex-wrap: wrap;
@@ -55,8 +53,6 @@ section {
   justify-content: center;
   max-height: 600px;
   max-width: 600px;
-  /* background-image: url("https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/GAojbUa/videoblocks-space-background-loop-animation_bwypehusb_thumbnail-full01.png"); */
-  /* background-repeat: no-repeat; */
 }
 
 .grid div {
