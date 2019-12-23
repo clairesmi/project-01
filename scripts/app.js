@@ -142,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }, 1500)
 
+  // build the grid
 
   for (let i = 0; i < width ** 2; i++) {
     const cell = document.createElement('DIV') 
@@ -197,7 +198,6 @@ document.addEventListener('DOMContentLoaded', () => {
     aliensCollide2()
   }, 1000)
 
-
   // ADD PLAYER TO GRID
   cells[playerIdx].classList.add('player')
   document.addEventListener('keydown', (e) => {
@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const bulletMove = setInterval(() => {        
         cells[bulletIdx].classList.remove('bullet')
 
-        // SEPARATE FUNCTION FOR BULLET COLLISION WITH ALIENS 
+        // FOR BULLET COLLISION WITH ALIENS 
         if (cells[bulletIdx].classList.contains('aliens')) {
           clearInterval(bulletMove, alienMove)
 
