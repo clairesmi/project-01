@@ -17,7 +17,7 @@ This is a browser game of Space Invaders built with Vanilla Javascript.
 
 ## Deployment 
 
-The game is deployed on GitHub Pages and it can be found here: https://clairesmi.github.io/project-01/
+The game is deployed on GitHub Pages and it can be found here: https://clairesmi.github.io/space-invaders//
  
 ## Getting Started
 

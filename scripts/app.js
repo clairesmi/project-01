@@ -166,8 +166,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ALIEN MOVEMENTS
-  const alienMove = setInterval(() => {
+  // const alienMove = setInterval(() => {
+  function alienMoves() {
     cells.forEach(cell => cell.classList.remove('aliens', 'bullet'))
+    // console.log(teamAliens[0])
 
     if (direction === 1 && teamAliens[0] % width === 2) {
       direction = width 
@@ -180,8 +182,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     teamAliens = teamAliens.map(alien => alien ? alien + direction : null)
     aliensCollide()
-  
-  }, 1000)
+  }
+  // }, 1000)
+
+  const timerId = setInterval(alienMoves, 1000)
 
   const alienMove2 = setInterval(() => {
 
